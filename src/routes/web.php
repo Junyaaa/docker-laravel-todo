@@ -21,28 +21,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function() {
 
-     // 入力フォーム画面を返却するルート
-    Route::get('/comment', 'CommentController@showForm')->name('comment');
-     // 入力を受け付けるルート
-    Route::post('/comment', 'CommentController@create');
-     // 入力後にリダイレクトする完了画面のルート
-    Route::get('/comment/thanks', 'CommentController@thanks')->name('comment.thanks');
-
     Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-
-    Route::get('/folders/{id}/tasks','App\Http\Controllers\TaskController@index')->name('tasks.index');
 
     Route::get('/folders/create', 'App\Http\Controllers\FolderController@showCreateForm')->name('folders.create');
     Route::post('/folders/create', 'App\Http\Controllers\FolderController@create');
 
-    Route::get('/folders/{id}/tasks/create', 'App\Http\Controllers\TaskController@showCreateForm')->name('tasks.create');
-    Route::post('/folders/{id}/tasks/create', 'App\Http\Controllers\TaskController@create');
 
-    Route::get('/folders/{id}/tasks/{task_id}/edit', 'App\Http\Controllers\TaskController@showEditForm')->name('tasks.edit');
-    Route::post('/folders/{id}/tasks/{task_id}/edit', 'App\Http\Controllers\TaskController@edit');
+    Route::group(['middleware' => 'can:view,folder'], function() {
+        Route::get('/folders/{folder}/tasks', 'App\Http\Controllers\TaskController@index')->name('tasks.index');
+
+        Route::get('/folders/{folder}/tasks/create', 'App\Http\Controllers\TaskController@showCreateForm')->name('tasks.create');
+        Route::post('/folders/{folder}/tasks/create', 'App\Http\Controllers\TaskController@create');
+
+        Route::get('/folders/{folder}/tasks/{task}/edit', 'TaskController@showEditForm')->name('tasks.edit');
+        Route::post('/folders/{folder}/tasks/{task}/edit', 'TaskController@edit');
+    });
 
 });
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
