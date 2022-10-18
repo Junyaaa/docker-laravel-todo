@@ -20,6 +20,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'auth'], function() {
+
+     // 入力フォーム画面を返却するルート
+    Route::get('/comment', 'CommentController@showForm')->name('comment');
+     // 入力を受け付けるルート
+    Route::post('/comment', 'CommentController@create');
+     // 入力後にリダイレクトする完了画面のルート
+    Route::get('/comment/thanks', 'CommentController@thanks')->name('comment.thanks');
+
     Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
     Route::get('/folders/{id}/tasks','App\Http\Controllers\TaskController@index')->name('tasks.index');
