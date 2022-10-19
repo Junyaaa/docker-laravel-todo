@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
+use App\Models\Folder;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
-use App\Task;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,7 +58,7 @@ class TaskController extends Controller
         $folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
@@ -94,7 +94,7 @@ class TaskController extends Controller
         $task->save();
 
         return redirect()->route('tasks.index', [
-            'id' => $task->folder_id,
+            'folder' => $task->folder_id,
         ]);
     }
 
