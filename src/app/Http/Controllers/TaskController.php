@@ -6,6 +6,7 @@ use App\Models\Folder;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
 use App\Models\Task;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,7 @@ class TaskController extends Controller
             'folders' => $folders,
             'current_folder_id' => $folder->id,
             'tasks' => $tasks,
+            // 'comment'=> $comments,
         ]);
     }
 
@@ -42,6 +44,7 @@ class TaskController extends Controller
             'folder_id' => $folder->id,
         ]);
     }
+
 
     /**
      * タスク作成
@@ -109,4 +112,57 @@ class TaskController extends Controller
             abort(404);
         }
     }
+
+
+    /**
+     * コメント作成フォーム
+     * @param Folder $folder
+     * @return \Illuminate\View\View
+     */
+    public function showCommentsForm(Folder $folder, Task $task)
+    {
+        return view('comments/comment', [
+            'task' => $task,
+            'task_id' => $task->id,
+        ]);
+    }
+
+
+     /**
+     * コメント作成
+     * @param Task $task
+     * @param CreateComment $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function comment(Task $task, CreateComment $request)
+    {
+        $comment = new Task();
+        $commen->title = $request->title;
+        $commet->due_date = $request->due_date;
+
+        $task->comment()->save($comment);
+
+        return redirect()->route('task.index', [
+            'task' => $task->id,
+        ]);
+    }
+
+     /**
+     * コメント編集フォーム
+     * @param Folder $folder
+     * @param Task $task
+     * @param Comment $comment
+     * @return \Illuminate\View\View
+     */
+    public function showEditCommentForm(Folder $folder, Task $task, Comment $comment)
+    {
+        $this->checkRelation($folder, $task, $comment);
+
+        return view('comments/edit', [
+            'comment' => $comment,
+        ]);
+    }
+
+
+
 }

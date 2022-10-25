@@ -1,6 +1,9 @@
 @extends('layout')
 
 @section('content')
+
+<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
   <div class="container">
     <div class="row">
       <div class="col col-md-4">
@@ -33,28 +36,38 @@
               </a>
             </div>
           </div>
-          <table class="table">
-            <thead>
-            <tr>
-              <th>タイトル</th>
-              <th>状態</th>
-              <th>期限</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($tasks as $task)
-              <tr>
-                <td>{{ $task->title }}</td>
-                <td>
-                  <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
-                </td>
-                <td>{{ $task->formatted_due_date }}</td>
-                <td><a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}">編集</a></td>
-              </tr>
-            @endforeach
-            </tbody>
-          </table>
+            <table class="table">
+                <thead>
+                <tr>
+                  <th style="width: 60%">タイトル</th>
+                  <th style="width: 10%" class="text-center">状態</th>
+                  <th style="width: 10%" class="text-center">期限</th>
+                  <th style="width: 10%" class="text-center">編集</th>
+                  <th style="width: 10%" class="text-center">コメント</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($tasks as $task)
+                  <tr>
+                    <td style="width: 60%">{{ $task->title }}</td>
+                    <td style="width: 10%" align="center">
+                      <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
+                    </td>
+                    <td style="width: 10%" align="center">{{ $task->formatted_due_date }}</td>
+
+                    <td style="width: 10%" align="center"><a href="{{ route('tasks.edit', ['folder' => $task->folder_id, 'task' => $task->id]) }}"><i class="far fa-edit"></i></a></td>
+
+                    {{-- コメント機能ボタン --}}
+                    <td style="width: 10%" align="center">
+                        <a href="{{ route('comments.comment', ['folder' => $task->folder_id, 'task' => $task->id]) }}">
+                            <i class="far fa-comments"></i>
+                        </a>
+                    </td>
+                  </tr>
+                @endforeach
+                </tbody>
+            </table>
+
         </div>
       </div>
     </div>
