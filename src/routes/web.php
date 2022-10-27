@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/folders/{folder}/tasks/{task}/comments/create', 'App\Http\Controllers\CommentsController@showCreateForm')->name('comments.create');
         Route::post('/folders/{folder}/tasks/{task}/comments/create', 'App\Http\Controllers\CommentsController@create');
 
-        Route::get('/folders/{folder}/tasks/{task}/comments/{comment}/edit', 'App\Http\Controllers\CommentskController@showEditForm')->name('comments.edit');
+        Route::get('/folders/{folder}/tasks/{task}/comments/{comment}/edit', 'App\Http\Controllers\CommentsController@showEditForm')->name('comments.edit');
         Route::post('/folders/{folder}/tasks/{task}/comments/{comment}/edit', 'App\Http\Controllers\CommentsController@edit');
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
 use App\Models\Task;
 use App\Models\Comment;
+use App\Http\Requests\CommentTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -115,15 +116,28 @@ class TaskController extends Controller
 
 
     /**
-     * コメント作成フォーム
+     * コメント作成フォーム（コメント一覧ページへのアクセス）
      * @param Folder $folder
      * @return \Illuminate\View\View
      */
-    public function showCommentsForm(Folder $folder, Task $task)
+    public function showCommentsForm(Folder $folder, Task $task, Comment $request)
     {
+
+        // ユーザーのフォルダを取得する
+        $folders = Auth::user()->folders()->get();
+
+        // 選ばれたフォルダに紐づくタスクを取得する
+        $tasks = $folder->tasks()->get();
+
+        // 選ばれたフォルダに紐づくタスクを取得する
+        $comments = $task->comments()->get();
+
         return view('comments/comment', [
             'task' => $task,
             'task_id' => $task->id,
+            'comments' => $comments,
+            // 'comment_id' => $comment->id,
+
         ]);
     }
 
@@ -144,6 +158,7 @@ class TaskController extends Controller
 
         return redirect()->route('task.index', [
             'task' => $task->id,
+            'comment' => $comment,
         ]);
     }
 
