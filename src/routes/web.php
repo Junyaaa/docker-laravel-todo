@@ -40,6 +40,9 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/folders/{folder}/tasks/{task}/comments/{comment}/edit', 'App\Http\Controllers\CommentsController@showEditForm')->name('comments.edit');
         Route::post('/folders/{folder}/tasks/{task}/comments/{comment}/edit', 'App\Http\Controllers\CommentsController@edit');
 
+        Route::get('/folders/{folder}/tasks/{task}/comments/{comment}/destroy', 'App\Http\Controllers\CommentsController@destroy')->name('comments.comment');
+
+
 
     });
 
