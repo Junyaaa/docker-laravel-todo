@@ -30,7 +30,7 @@ class TaskController extends Controller
             'folders' => $folders,
             'current_folder_id' => $folder->id,
             'tasks' => $tasks,
-            // 'comment'=> $comments,
+            // 'comment'=> $comment,
         ]);
     }
 

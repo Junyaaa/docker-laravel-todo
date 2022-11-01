@@ -59,7 +59,7 @@
 
                     {{-- コメント機能ボタン --}}
                     <td style="width: 10%" align="center">
-                        <a href="{{ route('comments.comment', ['folder' => $task->folder_id, 'task' => $task->id]) }}">
+                        {{-- <a href="{{ route('comments.comment', ['folder' => $task->folder_id, 'task' => $task->id]) }}"> --}}
                             <i class="far fa-comments"></i>
                         </a>
                     </td>
