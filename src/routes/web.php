@@ -42,7 +42,10 @@ Route::group(['middleware' => 'auth'], function() {
 
         // 削除機能
 
-        Route::post('/folders/{folder}/tasks/{task}/comments/{comment}/destroy/{id}','App\Http\Controllers\CommentsController@destroy')->name('comments.comment');
+        Route::delete('/folders/tasks/comments/destroy/{id}','App\Http\Controllers\CommentsController@destroy')->name('comments.delete');
+
+
+        // Route::post('/folders/{folder}/tasks/{task}/comments/{comment}/destroy/{id}','App\Http\Controllers\CommentsController@destroy')->name('comments.comment');
 
         // Route::post('/folders/{folder}/tasks/{task}/comments/{comment}','App\Http\Controllers\CommentsController@comment')->name('comments.comment');
         // Route::delete('/folders/{folder}/tasks/{task}/comments/{comment}','App\Http\Controllers\CommentsController@destroy')->name('delete');

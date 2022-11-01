@@ -136,33 +136,32 @@ class CommentsController extends Controller
      * @param Comment $comment
     * @return \Illuminate\Http\Response
     */
-    public function destroy(Folder $folder, Task $task, Comment $comment)
+    public function destroy($id)
     {
-        $deletecomment = $comment->comment->deleteCommentById($comment);
+        // $deletecomment = $comment->deleteCommentById($comment);
 
-        // $comment = Comment::find($id);
-        // $comment->destroy($id);
+        dd('hello');
+        $comment = Comment::find($id);
+        $comment->destroy();
 
         // $comment->comment->destroy();
         // Comment::where('comment', $comment)->delete();
 
 
         // return redirect('comments.comment');
-        return redirect()->route('comments.comment$ $', [
-            'folder' => $folder->folder_id,
-            'task' => $task,
-            'comment' => $comment,
-            'id' => $comment->id,
+        return redirect()->route('comments.comment', [
+            'folder' => $comment->folder_id,
+            'task' => $comment->task_id,
 
         ]);
     }
 
-    public function __construct(deleteCommentById $deletecomment){
+    // public function __construct(deleteCommentById $deletecomment){
 
-        $deletecomment = $comment->comment->deleteCommentById($comment);
+    //     $deletecomment = $comment->comment->deleteCommentById($comment);
 
 
-    }
+    // }
 
 
 }

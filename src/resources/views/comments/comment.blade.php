@@ -63,9 +63,11 @@
 
                 {{-- 削除ボタン --}}
                 <td style="width: 10%" align="center">
-                    <form method="post" action="{{ route('comments.comment', ['folder' => $task->folder_id, 'task' => $task->id, 'comment'=>$comment->id, 'id'=>$comment->id]) }}" >
+                    <form method="post" action="{{ route('comments.delete', ['id'=>$comment->id]) }}" >
                       @csrf
-                      <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                      @method('DELETE')
+                      {{-- <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button> --}}
+                      <input type="submit" value="削除">
                     </form>
                 </td>
                 {{-- <td style="width: 10%" align="center">
