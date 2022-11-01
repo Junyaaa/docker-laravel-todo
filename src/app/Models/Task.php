@@ -44,4 +44,14 @@ class Task extends Model
         return Carbon::createFromFormat('Y-m-d', $this->attributes['due_date'])
             ->format('Y/m/d');
     }
+
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
+
+
+
+
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
+use App\Models\Folder;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\EditTask;
-use App\Task;
+use App\Models\Task;
+use App\Models\Comment;
+use App\Http\Requests\CommentTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +30,7 @@ class TaskController extends Controller
             'folders' => $folders,
             'current_folder_id' => $folder->id,
             'tasks' => $tasks,
+            // 'comment'=> $comment,
         ]);
     }
 
@@ -42,6 +45,7 @@ class TaskController extends Controller
             'folder_id' => $folder->id,
         ]);
     }
+
 
     /**
      * タスク作成
@@ -58,7 +62,7 @@ class TaskController extends Controller
         $folder->tasks()->save($task);
 
         return redirect()->route('tasks.index', [
-            'id' => $folder->id,
+            'folder' => $folder->id,
         ]);
     }
 
@@ -94,7 +98,7 @@ class TaskController extends Controller
         $task->save();
 
         return redirect()->route('tasks.index', [
-            'id' => $task->folder_id,
+            'folder' => $task->folder_id,
         ]);
     }
 
@@ -109,4 +113,71 @@ class TaskController extends Controller
             abort(404);
         }
     }
+
+
+    /**
+     * コメント作成フォーム（コメント一覧ページへのアクセス）
+     * @param Folder $folder
+     * @return \Illuminate\View\View
+     */
+    public function showCommentsForm(Folder $folder, Task $task, Comment $request)
+    {
+
+        // ユーザーのフォルダを取得する
+        $folders = Auth::user()->folders()->get();
+
+        // 選ばれたフォルダに紐づくタスクを取得する
+        $tasks = $folder->tasks()->get();
+
+        // 選ばれたフォルダに紐づくタスクを取得する
+        $comments = $task->comments()->get();
+
+        return view('comments/comment', [
+            'task' => $task,
+            'task_id' => $task->id,
+            'comments' => $comments,
+            // 'comment_id' => $comment->id,
+
+        ]);
+    }
+
+
+     /**
+     * コメント作成
+     * @param Task $task
+     * @param CreateComment $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function comment(Task $task, CreateComment $request)
+    {
+        $comment = new Task();
+        $commen->title = $request->title;
+        $commet->due_date = $request->due_date;
+
+        $task->comment()->save($comment);
+
+        return redirect()->route('task.index', [
+            'task' => $task->id,
+            'comment' => $comment,
+        ]);
+    }
+
+     /**
+     * コメント編集フォーム
+     * @param Folder $folder
+     * @param Task $task
+     * @param Comment $comment
+     * @return \Illuminate\View\View
+     */
+    public function showEditCommentForm(Folder $folder, Task $task, Comment $comment)
+    {
+        $this->checkRelation($folder, $task, $comment);
+
+        return view('comments/edit', [
+            'comment' => $comment,
+        ]);
+    }
+
+
+
 }
